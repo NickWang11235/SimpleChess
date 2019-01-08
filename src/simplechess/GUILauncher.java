@@ -5,7 +5,7 @@
  */
 package simplechess;
 
-import java.awt.Canvas;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,6 +15,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,62 +28,78 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
     public static final int BLOCK_SIZE = 60;
     private Board board;
     private Graphics g;
-    Panel panel;
+    private BoardPanel boardPanel;
+    private PiecePanel piecePanel;
     
     public GUILauncher(){
         super("Simple Chess Game");
+        initGraphics();
+    }
+    
+    private void initGraphics(){
+        
         addMouseListener(this);
         addMouseMotionListener(this);
+        
         try {
             board = new Board();
         } catch (IOException ex) {
             Logger.getLogger(GUILauncher.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        panel = new Panel();
-        //Terminates the program when the frame is closed. This 
-        //should be adjusted with concurency
+        boardPanel = new BoardPanel();
+        piecePanel = new PiecePanel();
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(BLOCK_SIZE * Board.BOARD_SIZE, BLOCK_SIZE * Board.BOARD_SIZE);
-        //Center the frame
         setLocationRelativeTo(null);
-        //Set the frame visible and displays it
-        setVisible(true);
-        add(panel);
-        //Resize the frame
+        
+        add(boardPanel);
+        setGlassPane(piecePanel);
+        piecePanel.setVisible(true);
+        
         pack();
-        System.out.println(getWidth() + " " +getHeight());
-        g = getGraphics();
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
+        setVisible(true);
+        
+        g = piecePanel.getGraphics();
     }
 
     private Piece selectedPiece;
     private int initX, initY;
+    private int x,y;
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        x = e.getX()/BLOCK_SIZE;
+        y = e.getY()/BLOCK_SIZE;
+        System.out.println(x + " " + y);
+        if(board.getBlockAt(y, x) != null){
+            selectedPiece = board.getBlockAt(y, x).getPiece();
+        }
+        boardPanel.repaint();
+    }
     
     @Override
     public void mousePressed(MouseEvent e) {
-        initX = e.getX();
-        initY = e.getY();
-        int x = e.getX()/BLOCK_SIZE, y = e.getY()/BLOCK_SIZE;
-        if(board.getBlockAt(y, x) != null){
-            selectedPiece = board.getBlockAt(y, x).getPiece();
-            board.clearBlockAt(y, x);
-        }
+//        initX = e.getX();
+//        initY = e.getY();
+//        int X = e.getX()/BLOCK_SIZE, Y = e.getY()/BLOCK_SIZE;
+//        if(board.getBlockAt(Y, X) != null){
+//            selectedPiece = board.getBlockAt(Y, X).getPiece();
+//            board.clearBlockAt(Y, X);
+//        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        int x = e.getX()/BLOCK_SIZE, y = e.getY()/BLOCK_SIZE;
-        if(board.getBlockAt(y, x) == null){
-            board.setBloctAt(y, x, selectedPiece);
-            selectedPiece = null;
-        }
-        g.clearRect(0, 0, getWidth(), getHeight());
-        panel.paintComponent(g);
+//        int x = e.getX()/BLOCK_SIZE, y = e.getY()/BLOCK_SIZE;
+//        if(board.getBlockAt(y, x).getPiece() == null){
+//            board.setBloctAt(y, x, selectedPiece);
+//            selectedPiece = null;
+//        }else{
+//            board.getBlockAt(initX/BLOCK_SIZE, initY/BLOCK_SIZE).setPiece(selectedPiece);
+//        }
     }
 
     @Override
@@ -95,18 +112,16 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(selectedPiece != null){
-//            System.out.println(initX%BLOCK_SIZE + " " +initY%BLOCK_SIZE);
-            g.drawImage(selectedPiece.img, e.getX()-initX%BLOCK_SIZE, e.getY()-initY%BLOCK_SIZE + 29, null);
-        }
+//        x = e.getX();
+//        y = e.getY();
+//        piecePanel.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        System.out.println(e.getX() + " "+ e.getY());
     }
 
-    private class Panel extends JPanel{
+    private class BoardPanel extends JPanel{
 
         @Override
         public Dimension getPreferredSize(){
@@ -124,10 +139,23 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                         g.setColor(Color.WHITE);
                     g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
                 }
+            if(selectedPiece != null){
+                g.setColor(Color.RED);
+                g.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
+            }
+        }
+    }
+    
+    private class PiecePanel extends JComponent{
+        @Override
+        protected void paintComponent(Graphics g){
+            super.paintComponent(g);
             for(int i = 0; i < Board.BOARD_SIZE; i++)
                 for(int j = 0; j < Board.BOARD_SIZE; j++)
-                    if(board.getBlockAt(i, j) != null)
+                    if(board.getBlockAt(i, j).getPiece() != null)
                         g.drawImage(board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
+//            if(selectedPiece != null)
+//                g.drawImage(selectedPiece.img, x - initX%BLOCK_SIZE, y - initY%BLOCK_SIZE, null);
         }
     }
 }

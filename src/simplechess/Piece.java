@@ -23,6 +23,10 @@ public class Piece{
         img = ImageIO.read(new File(path));
     }
     
+    public PieceType getType(){
+        return type;
+    }
+    
     public enum PieceType{
 
         KING(1, Rules.FORWARD, Rules.DIAGONAL),
