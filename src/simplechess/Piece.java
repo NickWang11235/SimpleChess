@@ -14,25 +14,34 @@ public class Piece{
     
     private PieceType type;
     public BufferedImage img;
-    public boolean firstMove = true;
+    public boolean firstMove;
     public boolean blackPlayer;
 
-    public Piece(PieceType type, boolean blackPlayer, String path) throws IOException {
+    public Piece(PieceType type, boolean blackPlayer, String path, boolean firstMove) throws IOException {
         this.type = type;
         this.blackPlayer = blackPlayer;
         img = ImageIO.read(new File(path));
+        this.firstMove = firstMove;
     }
     
     public PieceType getType(){
         return type;
     }
     
+    public Rules[] getRules(){
+        return type.rules;
+    }
+    
+    public int getRadius(){
+        return type.radius;
+    }
+    
     public enum PieceType{
 
         KING(1, Rules.FORWARD, Rules.DIAGONAL),
-        QUEEN(Integer.MAX_VALUE, Rules.FORWARD, Rules.DIAGONAL),
-        ROOK(Integer.MAX_VALUE, Rules.FORWARD),
-        BISHOP(Integer.MAX_VALUE, Rules.DIAGONAL),
+        QUEEN(8, Rules.FORWARD, Rules.DIAGONAL),
+        ROOK(8, Rules.FORWARD),
+        BISHOP(8, Rules.DIAGONAL),
         KNIGHT(1, Rules.SLANT),
         PAWN(1, Rules.FORWARD);
 
@@ -43,9 +52,11 @@ public class Piece{
             this.radius = radius;
             rules = rule;
         }
+        
+        
     }
 
-    private enum Rules{
+    public enum Rules{
 
         FORWARD(0),
         DIAGONAL(1),

@@ -56,46 +56,46 @@ public class Board {
         
         //Init white player pieces
         board[0][0].setPiece(new Piece(Piece.PieceType.ROOK, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Rook_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Rook_Black.png", false));
         board[0][1].setPiece(new Piece(Piece.PieceType.KNIGHT, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Knight_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Knight_Black.png", false));
         board[0][2].setPiece(new Piece(Piece.PieceType.BISHOP, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Bishop_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Bishop_Black.png", false));
         board[0][3].setPiece(new Piece(Piece.PieceType.QUEEN, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Queen_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Queen_Black.png", false));
         board[0][4].setPiece(new Piece(Piece.PieceType.KING, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\King_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\King_Black.png", false));
         board[0][5].setPiece(new Piece(Piece.PieceType.BISHOP, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Bishop_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Bishop_Black.png", false));
         board[0][6].setPiece(new Piece(Piece.PieceType.KNIGHT, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Knight_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Knight_Black.png", false));
         board[0][7].setPiece(new Piece(Piece.PieceType.ROOK, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Rook_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Rook_Black.png", false));
         
         //Init black player pieces
         board[7][0].setPiece(new Piece(Piece.PieceType.ROOK, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Rook_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Rook_White.png", false));
         board[7][1].setPiece(new Piece(Piece.PieceType.KNIGHT, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Knight_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Knight_White.png", false));
         board[7][2].setPiece(new Piece(Piece.PieceType.BISHOP, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Bishop_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Bishop_White.png", false));
         board[7][3].setPiece(new Piece(Piece.PieceType.QUEEN, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Queen_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Queen_White.png", false));
         board[7][4].setPiece(new Piece(Piece.PieceType.KING, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\King_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\King_White.png", false));
         board[7][5].setPiece(new Piece(Piece.PieceType.BISHOP, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Bishop_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Bishop_White.png", false));
         board[7][6].setPiece(new Piece(Piece.PieceType.KNIGHT, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Knight_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Knight_White.png", false));
         board[7][7].setPiece(new Piece(Piece.PieceType.ROOK, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Rook_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Rook_White.png", false));
         
         //Init pawns for both players
         for(int i = 0; i < BOARD_SIZE; i++){
             board[1][i].setPiece(new Piece(Piece.PieceType.PAWN, true,
-                "D:\\Java Prrojects\\SimpleChess\\res\\Black\\Pawn_Black.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\Black\\Pawn_Black.png", true));
             board[6][i].setPiece(new Piece(Piece.PieceType.PAWN, false,
-                "D:\\Java Prrojects\\SimpleChess\\res\\White\\Pawn_White.png"));
+                "D:\\Java Projects\\SimpleChess\\res\\White\\Pawn_White.png", true));
         }
         
     }
