@@ -6,9 +6,7 @@
 package simplechess;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class Piece{
     
@@ -16,20 +14,27 @@ public class Piece{
     public BufferedImage img;
     public boolean firstMove;
     public boolean blackPlayer;
-
-    public Piece(PieceType type, boolean blackPlayer, String path, boolean firstMove) throws IOException {
+    public int x, y;
+    
+    public Piece(PieceType type, int x, int y, boolean blackPlayer, boolean firstMove, String path) throws IOException {
         this.type = type;
+        this.x = x;
+        this.y = y;
         this.blackPlayer = blackPlayer;
-        img = ImageIO.read(new File(path));
         this.firstMove = firstMove;
+        img = ImageLoader.loadImage(path);
     }
     
     public PieceType getType(){
         return type;
     }
     
-    public Rules[] getRules(){
-        return type.rules;
+    public int[] getRulesSlope(){
+        int[] slopes = new int[type.rules.length];
+        for(int i = 0; i < slopes.length; i++){
+            slopes[i] = type.rules[i].slope;
+        }
+        return slopes;
     }
     
     public int getRadius(){
