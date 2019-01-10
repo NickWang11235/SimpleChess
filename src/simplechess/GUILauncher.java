@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import simplechess.Board.Block;
 import simplechess.Piece.Rules;
 
 /**
@@ -66,26 +67,30 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
     }
 
     private Piece selectedPiece;
-    private int initX, initY;
     private int x,y;
-    private int selectedX, selectedY;
     
     @Override
     public void mouseClicked(MouseEvent e) {
-        x = e.getX()/BLOCK_SIZE;
-        y = e.getY()/BLOCK_SIZE;
+        x = (e.getX() - 3)/BLOCK_SIZE;
+        y = (e.getY() - 26)/BLOCK_SIZE;
+        Piece temp = board.getBlockAt(y, x).getPiece();
         if(selectedPiece == null){
-            if(board.getBlockAt(y, x) != null){
-                selectedX = x;
-                selectedY = y;
-                selectedPiece = board.getBlockAt(y, x).getPiece();
+            if(temp != null){
+                selectedPiece = temp;
             }
         }else{
-            if(board.getBlockAt(y, x).getPiece() == null || board.getBlockAt(y, x).getPiece().blackPlayer == selectedPiece.blackPlayer){
-                board.getBlockAt(y, x).setPiece(selectedPiece);
-                board.clearBlockAt(selectedY, selectedX);
-                selectedPiece = null;
+            if(temp != selectedPiece && board.checkPlay(selectedPiece,y,x)){
+                    if(temp == null){
+                        board.clearBlockAt(selectedPiece.y, selectedPiece.x);
+                        board.getBlockAt(y, x).setPiece(selectedPiece);
+                    }else{
+                        if(temp.blackPlayer != selectedPiece.blackPlayer){
+                            board.clearBlockAt(selectedPiece.y, selectedPiece.x);
+                            board.getBlockAt(y, x).setPiece(selectedPiece);
+                        }
+                    }
             }
+            selectedPiece = null;
         }
         boardPanel.repaint();
     }
@@ -134,79 +139,7 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                 }
             if(selectedPiece != null){
                 g.setColor(Color.RED);
-                g.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                
-                if(selectedPiece.firstMove){
-                    g.setColor(Color.YELLOW);
-                    if(selectedPiece.blackPlayer){
-                        g.fillRect(x*BLOCK_SIZE,(y+1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                        g.fillRect((x+1)*BLOCK_SIZE,(y+1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                        g.fillRect((x-1)*BLOCK_SIZE,(y+1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                    }else{
-                        g.fillRect(x*BLOCK_SIZE,(y-1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                        g.fillRect((x+1)*BLOCK_SIZE,(y-1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                        g.fillRect((x-1)*BLOCK_SIZE,(y-1)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
-                    }
-                
-                }else{
-                    Rules rules[] = selectedPiece.getRules();
-                    try{
-                        for(Rules r : rules){
-                            for(int i = 0; i < selectedPiece.getRadius(); i++){
-                                int dx1 = r.slope, dy1 = 1, dx2 = 1, dy2 = r.slope, dx3 = -r.slope, dy3 = -1, dx4 = -1, dy4 = -r.slope;
-                                if(board.getBlockAt(y + dy1, x + dx1).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    dx1 = 0;
-                                    dy1 = 0;
-                                }else if(board.getBlockAt(y + dy1, x + dx1).getPiece() != null){
-                                    g.setColor(Color.YELLOW);
-                                    g.fillRect(i*(x + dx1)*BLOCK_SIZE, i*(y + dy1)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                }else if(board.getBlockAt(y + dy1, x + dx1).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    g.setColor(Color.BLACK);
-                                    g.fillRect(i*(x + dx1)*BLOCK_SIZE, i*(y + dy1)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                    dx1 = 0;
-                                    dy1 = 0;
-                                }
-                                if(board.getBlockAt(y + dy2, x + dx2).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    dx2 = 0;
-                                    dy2 = 0;
-                                }else if(board.getBlockAt(y + dy2, x + dx2).getPiece() != null){
-                                    g.setColor(Color.YELLOW);
-                                    g.fillRect(i*(x + dx2)*BLOCK_SIZE, i*(y + dy2)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                }else if(board.getBlockAt(y + dy2, x + dx2).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    g.setColor(Color.BLACK);
-                                    g.fillRect(i*(x + dx2)*BLOCK_SIZE, i*(y + dy2)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                    dx2 = 0;
-                                    dy2 = 0;
-                                }
-                                if(board.getBlockAt(y + dy3, x + dx3).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    dx3 = 0;
-                                    dy3 = 0;
-                                }else if(board.getBlockAt(y + dy3, x + dx3).getPiece() != null){
-                                    g.setColor(Color.YELLOW);
-                                    g.fillRect(i*(x + dx3)*BLOCK_SIZE, i*(y + dy3)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                }else if(board.getBlockAt(y + dy3, x + dx3).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    g.setColor(Color.BLACK);
-                                    g.fillRect(i*(x + dx3)*BLOCK_SIZE, i*(y + dy3)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                    dx3 = 0;
-                                    dy3 = 0;
-                                }
-                                if(board.getBlockAt(y + dy4, x + dx4).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    dx4 = 0;
-                                    dy4 = 0;
-                                }else if(board.getBlockAt(y + dy4, x + dx4).getPiece() != null){
-                                    g.setColor(Color.YELLOW);
-                                    g.fillRect(i*(x + dx4)*BLOCK_SIZE, i*(y + dy4)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                }else if(board.getBlockAt(y + dy4, x + dx4).getPiece().blackPlayer != selectedPiece.blackPlayer){
-                                    g.setColor(Color.BLACK);
-                                    g.fillRect(i*(x + dx4)*BLOCK_SIZE, i*(y + dy4)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                                    dx4 = 0;
-                                    dy4 = 0;
-                                }
-                            }
-                        }
-                    }catch(Exception e){
-                    }
-                }
+                g.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);                
             }
         }
     }
