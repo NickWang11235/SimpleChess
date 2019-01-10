@@ -6,6 +6,8 @@
 package simplechess;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,6 +33,12 @@ public class Board {
             this.piece = piece;
         }
         
+        public void setPiece(Piece piece, int y, int x){
+            this.piece = piece;
+            piece.x = x;
+            piece.y = y;
+        }
+        
         public boolean isEmpty(){
             return piece == null;
         }
@@ -42,6 +50,7 @@ public class Board {
     }
     
     private Block board[][] = new Block[BOARD_SIZE][BOARD_SIZE];
+    private Piece selectedPiece;
     
     public Board() throws IOException{
         for(int i = 0; i < BOARD_SIZE; i++){
@@ -92,16 +101,12 @@ public class Board {
         
         //Init pawns for both players
         for(int i = 0; i < BOARD_SIZE; i++){
-            board[1][i].setPiece(new Piece(Piece.PieceType.PAWN, i, 1, true, true,
+            board[1][i].setPiece(new Piece(Piece.PieceType.PAWNB, i, 1, true, true,
                 "/Black/Pawn_Black.png"));
-            board[6][i].setPiece(new Piece(Piece.PieceType.PAWN, i, 6, false, true,
+            board[6][i].setPiece(new Piece(Piece.PieceType.PAWNW, i, 6, false, true,
                 "/White/Pawn_White.png"));
         }
-        
-    }
 
-    public void clearBlockAt(int row, int col) {
-        board[row][col].clearPiece();
     }
     
     public Block getBlockAt(int row, int col){
@@ -109,65 +114,121 @@ public class Board {
     }
     
     public void setBloctAt(int row, int col, Piece piece){
-        board[row][col].setPiece(piece);
+        board[row][col].setPiece(piece, col, row);
+    }
+
+    public Piece getSelectedPiece(){
+        return selectedPiece;
     }
     
-    public boolean checkPlay(Piece selectedPiece, int row, int col){
+    public void action(int y, int x){
+        Piece temp = board[y][x].getPiece();
+        if(selectedPiece == null){
+            if(temp != null){
+                //If nothing is selected
+                selectedPiece = temp;
+            }
+        }else{
+            if(temp != selectedPiece && checkPlay(y,x)){
+                //If the play is valid and is not clicking on itself 
+                if(temp == null){
+                    //moving to empty space
+                    board[selectedPiece.y][selectedPiece.x].piece = null;
+                    board[y][x].setPiece(selectedPiece, y, x);
+                }else{
+                    //Moving onto another piece
+                    if(temp.blackPlayer != selectedPiece.blackPlayer){
+                        //The piece belongs to aother player
+                        board[selectedPiece.y][selectedPiece.x].piece = null;
+                        board[y][x].setPiece(selectedPiece, y, x);
+                    }
+                }
+                selectedPiece.firstMove = false;
+                
+            }
+            selectedPiece = null;
+        }
+
+    }
+    
+    public boolean checkPlay(int row, int col){
         
         int plays[][] = getValidPlays(selectedPiece); 
+        return plays[row][col] != 0;
         
-        return plays[row][col] == 1;
     }
     
     public int[][] getValidPlays(Piece selectedPiece){
         
         int plays[][] = new int[BOARD_SIZE][BOARD_SIZE];
-        int slopes[] = selectedPiece.getRulesSlope();
-        
-        int x = selectedPiece.x;
-        int y = selectedPiece.y;
-        
-        for(int i = 0; i < slopes.length; i++){
-            int currSlope = slopes[i];
-            plays = checkSlope(slopes[i], 1, plays, selectedPiece);
-            plays = checkSlope(-1, -slopes[i], plays, selectedPiece);
-            plays = checkSlope(slopes[i], 1, plays, selectedPiece);
-            plays = checkSlope(-1, -slopes[i], plays, selectedPiece);
+        switch(selectedPiece.getType()){
+            case KING:
+                int row, col;
+                for(int i = -1; i <= 1; i++){
+                    for(int j = -1; j <= 1; j++){
+                        row = Math.max(0, Math.min( j + selectedPiece.y, BOARD_SIZE -1));
+                        col = Math.max(0, Math.min( i + selectedPiece.x, BOARD_SIZE -1));
+                        if(board[row][col].piece != null){
+                            if(board[row][col].piece.blackPlayer != selectedPiece.blackPlayer){
+                                plays[row][col] = 2;
+                            }
+                        }else{
+                            plays[row][col] = 1;
+                        }
+                    }
+                }
+                            
+                break;
+            case QUEEN:
+                break;
+            case ROOK:
+                break;
+            case BISHOP:
+                break;
+            case KNIGHT:
+                break;
+            case PAWNB:
+                row = selectedPiece.y;
+                col = selectedPiece.x;
+                if(selectedPiece.firstMove){
+                    for(int i = 1; i <= 2; i++){
+                        if(board[row + i][col].piece != null){
+                            if(board[row + i][col].piece.blackPlayer != selectedPiece.blackPlayer){
+                                plays[row + i][col] = 2;
+                            }
+                            break;
+                        }else{
+                            plays[row + i][col] = 1;
+                        }
+                    }
+                }else{
+                    if(board[row + 1][col].piece != null){
+                        if(board[row + 1][col].piece.blackPlayer != selectedPiece.blackPlayer){
+                            plays[row + 1][col] = 2;
+                        }
+                    }else{
+                        plays[row + 1][col] = 1;
+                    }
+                }
+                if(board[row + 1][col].piece != null)
+                break;
+            case PAWNW:
+                break;
         }
+
+        return plays;
+    }
+    
+    public void print(int[][] plays){
+                
         for(int[] a : plays){
             for(int b : a){
                 System.out.print(b + " ");
             }
             System.out.println();
         }
-        return plays;
-    }
-    
-    private int[][] checkSlope(int dx, int dy, int[][] plays, Piece selectedPiece){
-            
-            int x = selectedPiece.x,
-                y = selectedPiece.y;
-        
-            for(int i = 0; i < selectedPiece.getRadius(); i++){
-                
-                x += dx;
-                y += dy;
-                
-                if(x > BOARD_SIZE - 1 || y > BOARD_SIZE -1)
-                    break;
-                
-                if(board[y][x].piece != null){
-                    boolean notNull = board[y][x].piece != null,
-                        diffPlayer = board[y][x].piece.blackPlayer != selectedPiece.blackPlayer;
-                
-                    if(notNull && diffPlayer)
-                        break;
-                }
-                
-                plays[y][x] = 1;
-            }        
-        
-        return plays;
+        System.out.println();
+        System.out.println();
     }
     
 }

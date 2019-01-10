@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import simplechess.Board.Block;
-import simplechess.Piece.Rules;
 
 /**
  *
@@ -66,33 +64,14 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         g = piecePanel.getGraphics();
     }
 
-    private Piece selectedPiece;
-    private int x,y;
-    
     @Override
     public void mouseClicked(MouseEvent e) {
-        x = (e.getX() - 3)/BLOCK_SIZE;
-        y = (e.getY() - 26)/BLOCK_SIZE;
-        Piece temp = board.getBlockAt(y, x).getPiece();
-        if(selectedPiece == null){
-            if(temp != null){
-                selectedPiece = temp;
-            }
-        }else{
-            if(temp != selectedPiece && board.checkPlay(selectedPiece,y,x)){
-                    if(temp == null){
-                        board.clearBlockAt(selectedPiece.y, selectedPiece.x);
-                        board.getBlockAt(y, x).setPiece(selectedPiece);
-                    }else{
-                        if(temp.blackPlayer != selectedPiece.blackPlayer){
-                            board.clearBlockAt(selectedPiece.y, selectedPiece.x);
-                            board.getBlockAt(y, x).setPiece(selectedPiece);
-                        }
-                    }
-            }
-            selectedPiece = null;
-        }
+        
+        int x = (e.getX() - 3)/BLOCK_SIZE,
+            y = (e.getY() - 26)/BLOCK_SIZE;
+        board.action(y, x);
         boardPanel.repaint();
+        
     }
     
     @Override
@@ -136,10 +115,20 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                     else
                         g.setColor(Color.WHITE);
                     g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
+                    if(board.getSelectedPiece() != null){
+                        switch(board.getValidPlays(board.getSelectedPiece())[i][j]){
+                            case 1:
+                                g.setColor(Color.YELLOW);
+                                g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
+                            case 2:
+                               g.setColor(Color.BLACK);
+                                g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
+                        }
+                    }
                 }
-            if(selectedPiece != null){
+            if(board.getSelectedPiece() != null){
                 g.setColor(Color.RED);
-                g.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);                
+                g.fillRect(board.getSelectedPiece().x*BLOCK_SIZE, board.getSelectedPiece().y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
             }
         }
     }

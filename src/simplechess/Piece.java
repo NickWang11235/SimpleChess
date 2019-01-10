@@ -29,49 +29,15 @@ public class Piece{
         return type;
     }
     
-    public int[] getRulesSlope(){
-        int[] slopes = new int[type.rules.length];
-        for(int i = 0; i < slopes.length; i++){
-            slopes[i] = type.rules[i].slope;
-        }
-        return slopes;
-    }
-    
-    public int getRadius(){
-        return type.radius;
-    }
-    
     public enum PieceType{
 
-        KING(1, Rules.FORWARD, Rules.DIAGONAL),
-        QUEEN(8, Rules.FORWARD, Rules.DIAGONAL),
-        ROOK(8, Rules.FORWARD),
-        BISHOP(8, Rules.DIAGONAL),
-        KNIGHT(1, Rules.SLANT),
-        PAWN(1, Rules.FORWARD);
-
-        Rules rules[];
-        int radius;
-
-        PieceType(int radius, Rules... rule){
-            this.radius = radius;
-            rules = rule;
-        }
-        
-        
-    }
-
-    public enum Rules{
-
-        FORWARD(0),
-        DIAGONAL(1),
-        SLANT(2);
-
-        int slope;
-
-        Rules(int m){
-            slope = m;
-        }
+        KING,
+        QUEEN,
+        ROOK,
+        BISHOP,
+        KNIGHT,
+        PAWNB,
+        PAWNW;
 
     }
 
