@@ -14,7 +14,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import static simplechess.Board.print;
 
 /**
  *
@@ -108,8 +107,8 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                     else
                         g.setColor(Color.WHITE);
                     g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
-                    if(board.getSelectedPiece() != null){
-                        switch(board.getSelectedPiece().getValidPlays()[i][j]){
+                    if(Board.getSelectedPiece() != null){
+                        switch(Board.getSelectedPiece().getValidPlays()[i][j]){
                             case 1:
                                 g.setColor(Color.YELLOW);
                                 g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
@@ -123,7 +122,7 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                 }
             if(board.getSelectedPiece() != null){
                 g.setColor(Color.RED);
-                g.fillRect(board.getSelectedPiece().x*BLOCK_SIZE, board.getSelectedPiece().y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
+                g.fillRect(Board.getSelectedPiece().x*BLOCK_SIZE, Board.getSelectedPiece().y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
             }
         }
     }
@@ -134,8 +133,8 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
             super.paintComponent(g);
             for(int i = 0; i < Board.BOARD_SIZE; i++)
                 for(int j = 0; j < Board.BOARD_SIZE; j++)
-                    if(board.getBlockAt(i, j).getPiece() != null)
-                        g.drawImage(board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
+                    if(Board.getBlockAt(i, j).getPiece() != null)
+                        g.drawImage(Board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
 //            if(selectedPiece != null)
 //                g.drawImage(selectedPiece.img, x - initX%BLOCK_SIZE, y - initY%BLOCK_SIZE, null);
         }

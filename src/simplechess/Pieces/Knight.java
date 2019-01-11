@@ -27,14 +27,87 @@ public class Knight extends Piece{
     }
 
     @Override
-    public void move() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int[][] getValidPlays() {
+        
+        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+        
+        try{
+            if(simplechess.Board.board[y + 1][x + 2].getPiece() == null){
+                plays[y + 1][x + 2] = 1;
+            }else if(simplechess.Board.board[y + 1][x + 2].getPiece().blackPlayer != blackPlayer){
+                    plays[y + 1][x + 2] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        try{
+            if(simplechess.Board.board[y + 1][x - 2].getPiece() == null){
+                plays[y + 1][x - 2] = 1;
+            }else if(simplechess.Board.board[y + 1][x - 2].getPiece().blackPlayer != blackPlayer){
+                plays[y + 1][x - 2] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        try{
+            if(simplechess.Board.board[y - 1][x + 2].getPiece() == null){
+                plays[y - 1][x + 2] = 1;
+            }else if(simplechess.Board.board[y - 1][x + 2].getPiece().blackPlayer != blackPlayer){
+                    plays[y - 1][x + 2] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        try{
+            if(simplechess.Board.board[y - 1][x - 2].getPiece() == null){
+                plays[y - 1][x - 2] = 1;
+            }else if(simplechess.Board.board[y - 1][x - 2].getPiece().blackPlayer != blackPlayer){
+                    plays[y - 1][x - 2] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        try{
+            if(simplechess.Board.board[y + 2][x + 1].getPiece() == null){
+                plays[y + 2][x + 1] = 1;
+            }else if(simplechess.Board.board[y + 2][x + 1].getPiece().blackPlayer != blackPlayer){
+                    plays[y + 2][x + 1] = 2;
+            }
+        }catch(Exception e){
+        }
+
+        try{
+            if(simplechess.Board.board[y + 2][x - 1].getPiece() == null){
+                plays[y + 2][x - 1] = 1;
+            }else if(simplechess.Board.board[y + 2][x - 1].getPiece().blackPlayer != blackPlayer){
+                plays[y + 2][x - 1] = 2;
+            }
+        }catch(Exception e){
+        }
+
+        try{
+            if(simplechess.Board.board[y - 2][x + 1].getPiece() == null){
+                plays[y - 2][x + 1] = 1;
+            }else if(simplechess.Board.board[y - 2][x + 1].getPiece().blackPlayer != blackPlayer){
+                    plays[y - 2][x + 1] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        try{
+            if(simplechess.Board.board[y - 2][x - 1].getPiece() == null){
+                plays[y - 2][x - 1] = 1;
+            }else if(simplechess.Board.board[y - 2][x - 1].getPiece().blackPlayer != blackPlayer){
+                    plays[y - 2][x - 1] = 2;
+            }
+        }catch(Exception e){
+        }
+        
+        return plays;
     }
 
     @Override
-    public int[][] getValidPlays() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void move() {
     }
-
     
 }

@@ -28,12 +28,93 @@ public class Queen extends Piece {
 
     @Override
     public int[][] getValidPlays() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+        
+        for(int i = x+1; i <= 7; i++){
+            if(simplechess.Board.board[y][i].getPiece() == null){
+                plays[y][i] = 1;
+            }else{ 
+                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                    plays[y][i] = 2;
+                break;
+            }
+        }
+        
+        for(int i = x-1; i >= 0; i--){
+            if(simplechess.Board.board[y][i].getPiece() == null){
+                plays[y][i] = 1;
+            }else{
+                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                    plays[y][i] = 2;
+                break;
+            }
+        }
+        
+        for(int i = y+1; i <= 7; i++){
+            if(simplechess.Board.board[i][x].getPiece() == null){
+                plays[i][x] = 1;
+            }else{
+                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                    plays[i][x] = 2;
+                break;
+            }
+        }
+        
+        for(int i = y-1; i >= 0; i--){
+            if(simplechess.Board.board[i][x].getPiece() == null){
+                plays[i][x] = 1;
+            }else{
+                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                    plays[i][x] = 2;
+                break;
+            }
+        }
+        
+        for(int i = x+1, j = y+1; i <= 7 && j <= 7; i++, j++){
+            if(simplechess.Board.board[j][i].getPiece() == null){
+                plays[j][i] = 1;
+            }else{
+                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                    plays[j][i] = 2;
+                break;
+            }
+        }
+        
+        for(int i = x-1, j = y-1; i >= 0 && j >= 0; i--, j--){
+            if(simplechess.Board.board[j][i].getPiece() == null){
+                plays[j][i] = 1;
+            }else{
+                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                    plays[j][i] = 2;
+                break;
+            }
+        }
+        
+        for(int i = x+1, j = y-1; i <= 7 && j >= 1; i++, j--){
+            if(simplechess.Board.board[j][i].getPiece() == null){
+                plays[j][i] = 1;
+            }else{
+                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                    plays[j][i] = 2;
+                break;
+            }
+        }
+        
+        for(int i = x-1, j = y+1; i >= 0 && j <= 7; i--, j++){
+            if(simplechess.Board.board[j][i].getPiece() == null){
+                plays[j][i] = 1;
+            }else{
+                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                    plays[j][i] = 2;
+                break;
+            }
+        }
+        
+        return plays;
     }
 
     @Override
     public void move() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

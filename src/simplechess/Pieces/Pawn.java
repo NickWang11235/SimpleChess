@@ -32,31 +32,28 @@ public class Pawn extends Piece {
     public int[][] getValidPlays() {
         
         int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
-        
-        int row = y;
-        int col = x;
         int dy = blackPlayer? 1 : -1;
         
         if(firstMove){
             for(int i = 1; i <= 2 ; i++){
-                if(simplechess.Board.board[row + i*dy][col].getPiece() != null){
+                if(simplechess.Board.board[y + i*dy][x].getPiece() != null){
                     break;
                 }
-                plays[row + i*dy][col] = 1;
+                plays[y + i*dy][x] = 1;
             }
         }else{
-            if( row + dy >= 0 && row + dy <= 7 && simplechess.Board.board[row + dy][col].getPiece() == null){
-                plays[row + dy][col] = 1;
+            if( y + dy >= 0 && y + dy <= 7 && simplechess.Board.board[y + dy][x].getPiece() == null){
+                plays[y + dy][x] = 1;
             }
         }
         
-        if(row + dy >= 0 && row + dy <= 7){
-            if(col <= 6)
-                plays[row + dy][col + 1] =  simplechess.Board.board[row + dy][col+1].getPiece() != null && 
-                                            simplechess.Board.board[row + dy][col+1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
-            if(col >= 1)
-                plays[row + dy][col - 1] =  simplechess.Board.board[row + dy][col-1].getPiece() != null && 
-                                            simplechess.Board.board[row + dy][col-1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
+        if(y + dy >= 0 && y + dy <= 7){
+            if(x <= 6)
+                plays[y + dy][x + 1] =  simplechess.Board.board[y + dy][x+1].getPiece() != null && 
+                                            simplechess.Board.board[y + dy][x+1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
+            if(x >= 1)
+                plays[y + dy][x - 1] =  simplechess.Board.board[y + dy][x-1].getPiece() != null && 
+                                            simplechess.Board.board[y + dy][x-1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
         }
         
         return plays;
@@ -68,7 +65,12 @@ public class Pawn extends Piece {
         firstMove = false;
 
         if(y == 0 || y == 7){
-            simplechess.Board.setBloctAt(y, x, new Queen(y, x, blackPlayer));
+            simplechess.Board.setBloctAt(y, x, new Queen(2, 7, blackPlayer));
+            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece());
+            System.out.println(y);
+            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece().y);
+            System.out.println(x);
+            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece().x);
         }
 
     }

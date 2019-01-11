@@ -44,7 +44,7 @@ public class Board {
     }
     
     public static Block board[][] = new Block[BOARD_SIZE][BOARD_SIZE];
-    private Piece selectedPiece;
+    private static Piece selectedPiece;
     
     public Board(){
         for(int i = 0; i < BOARD_SIZE; i++){
@@ -89,7 +89,7 @@ public class Board {
         return board;
     }
     
-    public Block getBlockAt(int row, int col){
+    public static Block getBlockAt(int row, int col){
         return board[row][col];
     }
     
@@ -97,45 +97,57 @@ public class Board {
         board[row][col].setPiece(piece, col, row);
     }
 
-    public Piece getSelectedPiece(){
+    public static Piece getSelectedPiece(){
         return selectedPiece;
     }
-    
-    public void action(int y, int x){
-        Piece temp = board[y][x].getPiece();
-        if(selectedPiece == null){
-            if(temp != null){
-                //If nothing is selected
-                selectedPiece = temp;
-            }
-        }else{
-            if(temp != selectedPiece && checkPlay(y,x)){
-                //If the play is valid and is not clicking on itself 
-                if(temp == null){
-                    //moving to empty space
-                    board[selectedPiece.y][selectedPiece.x].piece = null;
-                    board[y][x].setPiece(selectedPiece, y, x);
-                    selectedPiece.move();
-                }else{
-                    //Moving onto another piece
-                    if(temp.blackPlayer != selectedPiece.blackPlayer){
-                        //The piece belongs to aother player
-                        board[selectedPiece.y][selectedPiece.x].piece = null;
-                        board[y][x].setPiece(selectedPiece, y, x);
-                        selectedPiece.move();
-                    }
-                }
-            }
-            selectedPiece = null;
-        }
-
-    }
-    
+        
     public boolean checkPlay(int row, int col){
         
         int plays[][] = selectedPiece.getValidPlays(); 
         return plays[row][col] != 0;
         
+    }
+    
+    public boolean move(int y, int x){
+
+        Piece temp = board[y][x].getPiece();
+        boolean moved;
+        
+        if(temp != selectedPiece && 
+                checkPlay(y,x) && 
+                !(temp != null && 
+                temp.blackPlayer == selectedPiece.blackPlayer)){
+            
+            //moving to empty space
+            board[selectedPiece.y][selectedPiece.x].piece = null;
+            board[y][x].setPiece(selectedPiece, y, x);
+            selectedPiece.move();
+            moved = true;
+        }
+        
+        moved = false;
+        selectedPiece = null;
+        
+        return moved;
+    }
+    
+    private boolean selectedPiece(int y, int x){
+        Piece temp = board[y][x].getPiece();
+        if(temp != null){
+            //If nothing is selected
+            selectedPiece = temp;
+            return true;
+        }        
+        return false;
+    }
+    
+    public void action(int y, int x){
+        if(selectedPiece == null){
+            selectedPiece(y,x);
+        }else{
+           move(y,x);
+        }
+
     }
     
     public static void print(int[][] plays){
