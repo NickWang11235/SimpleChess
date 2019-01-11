@@ -11,12 +11,10 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import static simplechess.Board.print;
 
 /**
  *
@@ -40,12 +38,7 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         addMouseListener(this);
         addMouseMotionListener(this);
         
-        try {
-            board = new Board();
-        } catch (IOException ex) {
-            Logger.getLogger(GUILauncher.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        board = new Board();
         boardPanel = new BoardPanel();
         piecePanel = new PiecePanel();
         
@@ -116,13 +109,15 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                         g.setColor(Color.WHITE);
                     g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
                     if(board.getSelectedPiece() != null){
-                        switch(board.getValidPlays(board.getSelectedPiece())[i][j]){
+                        switch(board.getSelectedPiece().getValidPlays()[i][j]){
                             case 1:
                                 g.setColor(Color.YELLOW);
                                 g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
+                                break;
                             case 2:
-                               g.setColor(Color.BLACK);
+                               g.setColor(Color.GREEN);
                                 g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
+                                break;
                         }
                     }
                 }

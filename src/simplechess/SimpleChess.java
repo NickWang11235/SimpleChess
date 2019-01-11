@@ -5,6 +5,8 @@
  */
 package simplechess;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author nickw
