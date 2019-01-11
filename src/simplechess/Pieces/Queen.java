@@ -90,7 +90,7 @@ public class Queen extends Piece {
             }
         }
         
-        for(int i = x+1, j = y-1; i <= 7 && j >= 1; i++, j--){
+        for(int i = x+1, j = y-1; i <= 7 && j >= 0; i++, j--){
             if(simplechess.Board.board[j][i].getPiece() == null){
                 plays[j][i] = 1;
             }else{

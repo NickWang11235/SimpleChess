@@ -45,8 +45,14 @@ public class Board {
     
     public static Block board[][] = new Block[BOARD_SIZE][BOARD_SIZE];
     private static Piece selectedPiece;
+    private static Piece blackKing, whiteKing;
+    
+    private static boolean blackTurn;
     
     public Board(){
+        
+        blackTurn = true;
+        
         for(int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++){
                 board[i][j] = new Block(null);
@@ -55,14 +61,15 @@ public class Board {
         initPieces();
     }
     
-    private void initPieces(){
+    private static void initPieces(){
 
         //Init white player pieces
         board[0][0].setPiece(new Rook(0, 0, true));
         board[0][1].setPiece(new Knight(1, 0, true));
         board[0][2].setPiece(new Bishop(2, 0, true));
         board[0][3].setPiece(new Queen(3, 0, true));
-        board[0][4].setPiece(new King(4, 0, true));
+        blackKing = new King(4, 0, true);
+        board[0][4].setPiece(blackKing);
         board[0][5].setPiece(new Bishop(5, 0, true));
         board[0][6].setPiece(new Knight(6, 0, true));
         board[0][7].setPiece(new Rook(7, 0, true));
@@ -72,7 +79,8 @@ public class Board {
         board[7][1].setPiece(new Knight( 1, 7, false));
         board[7][2].setPiece(new Bishop(2, 7, false));
         board[7][3].setPiece(new Queen( 3, 7, false));
-        board[7][4].setPiece(new King(4, 7, false));
+        whiteKing = new King(4, 7, false);
+        board[7][4].setPiece(whiteKing);
         board[7][5].setPiece(new Bishop( 5, 7, false));
         board[7][6].setPiece(new Knight( 6, 7, false));
         board[7][7].setPiece(new Rook(7, 7, false));
@@ -94,16 +102,31 @@ public class Board {
     }
     
     public static void setBloctAt(int row, int col, Piece piece){
+        board[row][col].piece = null;
         board[row][col].setPiece(piece, row, col);
     }
 
+    private static void clearBolckAt(int row, int col){
+        board[row][col].piece = null;
+    }
+    
     public static Piece getSelectedPiece(){
         return selectedPiece;
     }
         
+    public static void reset(){
+        blackTurn = true;
+        for(int i = 0; i < BOARD_SIZE; i++){
+            for(int j = 0; j < BOARD_SIZE; j++){
+                clearBolckAt(i,j);
+            }
+        }
+        initPieces();
+    }
+    
     public boolean checkPlay(int row, int col){
         
-        int plays[][] = selectedPiece.getValidPlays(); 
+        int plays[][] = selectedPiece.getValidPlays();
         return plays[row][col] != 0;
         
     }
@@ -116,12 +139,20 @@ public class Board {
         if(temp != selectedPiece && 
                 checkPlay(y,x) && 
                 !(temp != null && 
-                temp.blackPlayer == selectedPiece.blackPlayer)){
-            
-            //moving to empty space
+                temp.blackPlayer == selectedPiece.blackPlayer &&
+                temp.blackPlayer == blackTurn)){
+                
+            if(temp != null && board[y][x].piece.getClass() == King.class){
+                System.exit(0);
+            }
             board[selectedPiece.getY()][selectedPiece.getX()].piece = null;
             board[y][x].setPiece(selectedPiece, y, x);
             selectedPiece.move();
+            
+            blackTurn = !blackTurn;
+            if(blackKing == null || whiteKing == null)
+                System.exit(1);
+            
             moved = true;
         }
         
@@ -133,7 +164,7 @@ public class Board {
     
     private boolean selectedPiece(int y, int x){
         Piece temp = board[y][x].getPiece();
-        if(temp != null){
+        if(temp != null && temp.blackPlayer == blackTurn){
             //If nothing is selected
             selectedPiece = temp;
             return true;
@@ -142,6 +173,7 @@ public class Board {
     }
     
     public void action(int y, int x){
+
         if(selectedPiece == null){
             selectedPiece(y,x);
         }else{
