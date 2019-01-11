@@ -11,7 +11,7 @@ public abstract class Piece{
     
     public BufferedImage img;
     public boolean blackPlayer;
-    public int x, y;
+    protected int x, y;
     
     public Piece(int x, int y, boolean blackPlayer){
         this.x = x;
@@ -19,6 +19,22 @@ public abstract class Piece{
         this.blackPlayer = blackPlayer;
     }
     
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
+    }
+    
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
     public abstract void move();
     
     public abstract int[][] getValidPlays();

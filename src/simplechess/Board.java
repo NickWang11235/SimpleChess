@@ -33,8 +33,8 @@ public class Board {
         
         public void setPiece(Piece piece, int y, int x){
             this.piece = piece;
-            piece.x = x;
-            piece.y = y;
+            piece.setX(x);
+            piece.setY(y);
         }
         
         public boolean isEmpty(){
@@ -94,7 +94,7 @@ public class Board {
     }
     
     public static void setBloctAt(int row, int col, Piece piece){
-        board[row][col].setPiece(piece, col, row);
+        board[row][col].setPiece(piece, row, col);
     }
 
     public static Piece getSelectedPiece(){
@@ -119,7 +119,7 @@ public class Board {
                 temp.blackPlayer == selectedPiece.blackPlayer)){
             
             //moving to empty space
-            board[selectedPiece.y][selectedPiece.x].piece = null;
+            board[selectedPiece.getY()][selectedPiece.getX()].piece = null;
             board[y][x].setPiece(selectedPiece, y, x);
             selectedPiece.move();
             moved = true;

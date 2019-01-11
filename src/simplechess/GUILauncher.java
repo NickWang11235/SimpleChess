@@ -120,9 +120,9 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                         }
                     }
                 }
-            if(board.getSelectedPiece() != null){
+            if(Board.getSelectedPiece() != null){
                 g.setColor(Color.RED);
-                g.fillRect(Board.getSelectedPiece().x*BLOCK_SIZE, Board.getSelectedPiece().y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
+                g.fillRect(Board.getSelectedPiece().getX()*BLOCK_SIZE, Board.getSelectedPiece().getY()*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
             }
         }
     }
@@ -135,8 +135,6 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                 for(int j = 0; j < Board.BOARD_SIZE; j++)
                     if(Board.getBlockAt(i, j).getPiece() != null)
                         g.drawImage(Board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
-//            if(selectedPiece != null)
-//                g.drawImage(selectedPiece.img, x - initX%BLOCK_SIZE, y - initY%BLOCK_SIZE, null);
         }
     }
 }

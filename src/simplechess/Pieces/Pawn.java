@@ -63,15 +63,8 @@ public class Pawn extends Piece {
     public void move() {
         
         firstMove = false;
-
-        if(y == 0 || y == 7){
-            simplechess.Board.setBloctAt(y, x, new Queen(2, 7, blackPlayer));
-            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece());
-            System.out.println(y);
-            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece().y);
-            System.out.println(x);
-            System.out.println(simplechess.Board.getBlockAt(y, x).getPiece().x);
-        }
+        if(y == 0 || y == 7)
+            simplechess.Board.setBloctAt(y, x, new Queen(y, x, blackPlayer));
 
     }
     
