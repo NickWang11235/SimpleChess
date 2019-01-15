@@ -31,6 +31,12 @@ public class Board {
             this.piece = piece;
         }
         
+        /**
+         * Set piece and update the coordinate of the piece
+         * @param piece
+         * @param y
+         * @param x 
+         */
         public void setPiece(Piece piece, int y, int x){
             this.piece = piece;
             piece.setX(x);
@@ -47,6 +53,7 @@ public class Board {
     private static Piece selectedPiece;
     
     public Board(){
+        //Init blocks to contain null
         for(int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++){
                 board[i][j] = new Block(null);
@@ -93,14 +100,29 @@ public class Board {
         return board[row][col];
     }
     
+    /**
+     * Set the piece at row, col to piece, and update y,x of piece
+     * @param row
+     * @param col
+     * @param piece 
+     */
     public static void setBloctAt(int row, int col, Piece piece){
         board[row][col].setPiece(piece, row, col);
     }
 
+    /**
+     * @return currently selected piece
+     */
     public static Piece getSelectedPiece(){
         return selectedPiece;
     }
         
+    /**
+     * checks if selectedPiece can move to row, col
+     * @param row
+     * @param col
+     * @return 
+     */
     public boolean checkPlay(int row, int col){
         
         int plays[][] = selectedPiece.getValidPlays(); 
@@ -108,19 +130,27 @@ public class Board {
         
     }
     
+    /**
+     * Attempt to make a movement with the selectedPiece
+     * @param y
+     * @param x
+     * @return is move possible
+     */
     public boolean move(int y, int x){
 
         Piece temp = board[y][x].getPiece();
         boolean moved;
         
-        if(temp != selectedPiece && 
-                checkPlay(y,x) && 
-                !(temp != null && 
-                temp.blackPlayer == selectedPiece.blackPlayer)){
-            
-            //moving to empty space
+        if(temp != selectedPiece && //not moving onto itself
+                checkPlay(y,x) && //play is possible
+                !(temp != null && //place to move to is not empty
+                temp.blackPlayer == selectedPiece.blackPlayer)){ //not moving onto the player's own piece
+
+            //Clear the block selectedPiece was at
             board[selectedPiece.getY()][selectedPiece.getX()].piece = null;
+            //Set selectedPiece to the desired block
             board[y][x].setPiece(selectedPiece, y, x);
+            //Handles any action needed to be decided after the piece is moved
             selectedPiece.move();
             moved = true;
         }
@@ -131,6 +161,12 @@ public class Board {
         return moved;
     }
     
+    /**
+     * select a piece if no piece has been selected
+     * @param y
+     * @param x
+     * @return 
+     */
     private boolean selectedPiece(int y, int x){
         Piece temp = board[y][x].getPiece();
         if(temp != null){
@@ -141,25 +177,20 @@ public class Board {
         return false;
     }
     
+    /**
+     * Any time a selection of a block is made
+     * @param y
+     * @param x 
+     */
     public void action(int y, int x){
+        //Check if selecting
         if(selectedPiece == null){
             selectedPiece(y,x);
+        //If moving
         }else{
            move(y,x);
         }
 
-    }
-    
-    public static void print(int[][] plays){
-                
-        for(int[] a : plays){
-            for(int b : a){
-                System.out.print(b + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
     }
     
 }
