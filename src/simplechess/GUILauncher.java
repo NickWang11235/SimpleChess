@@ -5,15 +5,9 @@
  */
 package simplechess;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
@@ -26,6 +20,9 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
     private Graphics g;
     private BoardPanel boardPanel;
     private PiecePanel piecePanel;
+    private MenuBar menuBar;
+    private Menu menuOptions;
+    private MenuItem restart;
     
     public GUILauncher(){
         super("Simple Chess Game");
@@ -50,6 +47,18 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         setGlassPane(piecePanel);
         piecePanel.setVisible(true);
         
+        menuBar = new MenuBar();
+        menuOptions = new Menu("Options");
+        restart = new MenuItem("Restart");
+        
+        
+        restart.addActionListener((e) -> {Board.reset(); piecePanel.repaint();});
+        
+        menuOptions.add(restart);
+        menuBar.add(menuOptions);
+        
+        setMenuBar(menuBar);
+        
         pack();
         setVisible(true);
         
@@ -60,7 +69,8 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
     public void mouseClicked(MouseEvent e) {
         
         int x = (e.getX() - 3)/BLOCK_SIZE,
-            y = (e.getY() - 26)/BLOCK_SIZE;
+            y = (e.getY() - 46)/BLOCK_SIZE;
+        
         board.action(y, x);
         boardPanel.repaint();
         
