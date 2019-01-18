@@ -31,6 +31,12 @@ public class Board {
             this.piece = piece;
         }
         
+        /**
+         * Set piece and update the coordinate of the piece
+         * @param piece
+         * @param y
+         * @param x 
+         */
         public void setPiece(Piece piece, int y, int x){
             this.piece = piece;
             piece.setX(x);
@@ -50,7 +56,8 @@ public class Board {
     private boolean blackTurn;
     
     public Board(){
-        
+
+        //Init blocks to contain null
         blackTurn = false;
         
         for(int i = 0; i < BOARD_SIZE; i++){
@@ -131,25 +138,30 @@ public class Board {
         
     }
     
+    /**
+     * Attempt to make a movement with the selectedPiece
+     * @param y
+     * @param x
+     * @return is move possible
+     */
     public boolean move(int y, int x){
 
         Piece temp = board[y][x].getPiece();
         boolean moved;
-        
-        if(temp != selectedPiece && 
-                checkPlay(y,x) && 
-                !(temp != null && 
-                temp.blackPlayer == selectedPiece.blackPlayer &&
-                temp.blackPlayer == blackTurn)){
-                
+
+        if(temp != selectedPiece && //not moving onto itself
+                checkPlay(y,x) && //play is possible
+                !(temp != null && //place to move to is not empty
+                temp.blackPlayer == selectedPiece.blackPlayer)){ //not moving onto the player's own piece
+
             if(temp != null && board[y][x].piece.getClass() == King.class){
                 System.exit(0);
             }
-            
+
             board[selectedPiece.getY()][selectedPiece.getX()].piece = null;
+            //Set selectedPiece to the desired block
             board[y][x].setPiece(selectedPiece, y, x);
-            selectedPiece.move(this);
-            
+            selectedPiece.move(this);            
             blackTurn = !blackTurn;
             if(blackKing == null || whiteKing == null)
                 System.exit(1);
@@ -163,6 +175,12 @@ public class Board {
         return moved;
     }
     
+    /**
+     * select a piece if no piece has been selected
+     * @param y
+     * @param x
+     * @return 
+     */
     private boolean selectedPiece(int y, int x){
         Piece temp = board[y][x].getPiece();
         if(temp != null && temp.blackPlayer == blackTurn){
@@ -173,26 +191,21 @@ public class Board {
         return false;
     }
     
+    /**
+     * Any time a selection of a block is made
+     * @param y
+     * @param x 
+     */
     public void action(int y, int x){
 
+        //Check if selecting
         if(selectedPiece == null){
             selectedPiece(y,x);
+        //If moving
         }else{
            move(y,x);
         }
 
-    }
-    
-    public static void print(int[][] plays){
-                
-        for(int[] a : plays){
-            for(int b : a){
-                System.out.print(b + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
     }
     
 }

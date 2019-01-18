@@ -17,6 +17,7 @@ import simplechess.ImageLoader;
 public class Rook extends Piece {
 
     private static BufferedImage imgBlack, imgWhite;
+    private boolean firstMove = true;
         
     static {
         imgBlack = ImageLoader.loadImage("/Black/Rook_Black.png");
@@ -72,6 +73,10 @@ public class Rook extends Piece {
                     plays[i][x] = 2;
                 break;
             }
+        }
+        
+        if(firstMove){
+            plays[y][4] = 1;
         }
         
         return plays;
