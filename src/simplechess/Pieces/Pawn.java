@@ -6,6 +6,8 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
+import simplechess.Board.Block;
 import simplechess.ImageLoader;
 
 /**
@@ -29,42 +31,43 @@ public class Pawn extends Piece {
     }
     
     @Override
-    public int[][] getValidPlays() {
+    public int[][] getValidPlays(Board board) {
         
-        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+        int plays[][] = new int[board.BOARD_SIZE][board.BOARD_SIZE];
+        Block b[][] = board.getBoard();
         int dy = blackPlayer? 1 : -1;
         
         if(firstMove){
             for(int i = 1; i <= 2 ; i++){
-                if(simplechess.Board.board[y + i*dy][x].getPiece() != null){
+                if(board.getBoard()[y + i*dy][x].getPiece() != null){
                     break;
                 }
                 plays[y + i*dy][x] = 1;
             }
         }else{
-            if( y + dy >= 0 && y + dy <= 7 && simplechess.Board.board[y + dy][x].getPiece() == null){
+            if( y + dy >= 0 && y + dy <= 7 && board.getBoard()[y + dy][x].getPiece() == null){
                 plays[y + dy][x] = 1;
             }
         }
         
         if(y + dy >= 0 && y + dy <= 7){
             if(x <= 6)
-                plays[y + dy][x + 1] =  simplechess.Board.board[y + dy][x+1].getPiece() != null && 
-                                            simplechess.Board.board[y + dy][x+1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
+                plays[y + dy][x + 1] =  board.getBoard()[y + dy][x+1].getPiece() != null && 
+                                            board.getBoard()[y + dy][x+1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
             if(x >= 1)
-                plays[y + dy][x - 1] =  simplechess.Board.board[y + dy][x-1].getPiece() != null && 
-                                            simplechess.Board.board[y + dy][x-1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
+                plays[y + dy][x - 1] =  board.getBoard()[y + dy][x-1].getPiece() != null && 
+                                            board.getBoard()[y + dy][x-1].getPiece().blackPlayer != blackPlayer ? 2 : 0;
         }
         
         return plays;
     }
 
     @Override
-    public void move() {
+    public void move(Board board) {
         
         firstMove = false;
         if(y == 0 || y == 7)
-            simplechess.Board.setBloctAt(y, x, new Queen(y, x, blackPlayer));
+            board.setBloctAt(y, x, new Queen(y, x, blackPlayer));
 
     }
     

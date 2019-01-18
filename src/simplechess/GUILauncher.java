@@ -40,7 +40,7 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(BLOCK_SIZE * Board.BOARD_SIZE, BLOCK_SIZE * Board.BOARD_SIZE);
+        setSize(BLOCK_SIZE * board.BOARD_SIZE, BLOCK_SIZE * board.BOARD_SIZE);
         setLocationRelativeTo(null);
         
         add(boardPanel);
@@ -52,7 +52,7 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         restart = new MenuItem("Restart");
         
         
-        restart.addActionListener((e) -> {Board.reset(); piecePanel.repaint();});
+        restart.addActionListener((e) -> {board.reset(); piecePanel.repaint();});
         
         menuOptions.add(restart);
         menuBar.add(menuOptions);
@@ -104,21 +104,21 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
 
         @Override
         public Dimension getPreferredSize(){
-            return new Dimension(BLOCK_SIZE*Board.BOARD_SIZE, BLOCK_SIZE*Board.BOARD_SIZE);
+            return new Dimension(BLOCK_SIZE*board.BOARD_SIZE, BLOCK_SIZE*board.BOARD_SIZE);
         }
         
         @Override
         protected void paintComponent(Graphics g){
             super.paintComponent(g);
-            for(int i = 0; i < Board.BOARD_SIZE; i++)
-                for(int j = 0; j < Board.BOARD_SIZE; j++){
+            for(int i = 0; i < board.BOARD_SIZE; i++)
+                for(int j = 0; j < board.BOARD_SIZE; j++){
                     if((i+j)%2 == 1)
                         g.setColor(Color.GRAY);
                     else
                         g.setColor(Color.WHITE);
                     g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
-                    if(Board.getSelectedPiece() != null){
-                        switch(Board.getSelectedPiece().getValidPlays()[i][j]){
+                    if(board.getSelectedPiece() != null){
+                        switch(board.getSelectedPiece().getValidPlays(board)[i][j]){
                             case 1:
                                 g.setColor(Color.YELLOW);
                                 g.fillRect(j*BLOCK_SIZE, i*BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE);
@@ -130,9 +130,9 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
                         }
                     }
                 }
-            if(Board.getSelectedPiece() != null){
+            if(board.getSelectedPiece() != null){
                 g.setColor(Color.RED);
-                g.fillRect(Board.getSelectedPiece().getX()*BLOCK_SIZE, Board.getSelectedPiece().getY()*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
+                g.fillRect(board.getSelectedPiece().getX()*BLOCK_SIZE, board.getSelectedPiece().getY()*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);                
             }
         }
     }
@@ -141,10 +141,10 @@ public class GUILauncher extends JFrame implements MouseListener, MouseMotionLis
         @Override
         protected void paintComponent(Graphics g){
             super.paintComponent(g);
-            for(int i = 0; i < Board.BOARD_SIZE; i++)
-                for(int j = 0; j < Board.BOARD_SIZE; j++)
-                    if(Board.getBlockAt(i, j).getPiece() != null)
-                        g.drawImage(Board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
+            for(int i = 0; i < board.BOARD_SIZE; i++)
+                for(int j = 0; j < board.BOARD_SIZE; j++)
+                    if(board.getBlockAt(i, j).getPiece() != null)
+                        g.drawImage(board.getBlockAt(i, j).getPiece().img, j*BLOCK_SIZE, i*BLOCK_SIZE, null);
         }
     }
 }

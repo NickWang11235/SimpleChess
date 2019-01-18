@@ -20,24 +20,8 @@ public class ImageLoader {
         try {
             return ImageIO.read(ImageLoader.class.getResource(path));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
         }
         return null;
     }
-    
-    public static Image loadImage(String path, int x, int y){
-        try {
-            BufferedImage b = ImageIO.read(ImageLoader.class.getResource(path));
-            Image i = b.getScaledInstance(x, y, Image.SCALE_SMOOTH);
-            return i;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return null;
-    }
-    
-    
-    
+        
 }

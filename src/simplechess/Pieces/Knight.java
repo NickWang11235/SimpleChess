@@ -6,6 +6,8 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
+import simplechess.Board.Block;
 import simplechess.ImageLoader;
 
 /**
@@ -27,77 +29,78 @@ public class Knight extends Piece{
     }
 
     @Override
-    public int[][] getValidPlays() {
+    public int[][] getValidPlays(Board board) {
         
-        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+        int plays[][] = new int[board.BOARD_SIZE][board.BOARD_SIZE];
+        Block b[][] = board.getBoard();
         
         try{
-            if(simplechess.Board.board[y + 1][x + 2].getPiece() == null){
+            if(board.getBoard()[y + 1][x + 2].getPiece() == null){
                 plays[y + 1][x + 2] = 1;
-            }else if(simplechess.Board.board[y + 1][x + 2].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y + 1][x + 2].getPiece().blackPlayer != blackPlayer){
                     plays[y + 1][x + 2] = 2;
             }
         }catch(Exception e){
         }
         
         try{
-            if(simplechess.Board.board[y + 1][x - 2].getPiece() == null){
+            if(board.getBoard()[y + 1][x - 2].getPiece() == null){
                 plays[y + 1][x - 2] = 1;
-            }else if(simplechess.Board.board[y + 1][x - 2].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y + 1][x - 2].getPiece().blackPlayer != blackPlayer){
                 plays[y + 1][x - 2] = 2;
             }
         }catch(Exception e){
         }
         
         try{
-            if(simplechess.Board.board[y - 1][x + 2].getPiece() == null){
+            if(board.getBoard()[y - 1][x + 2].getPiece() == null){
                 plays[y - 1][x + 2] = 1;
-            }else if(simplechess.Board.board[y - 1][x + 2].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y - 1][x + 2].getPiece().blackPlayer != blackPlayer){
                     plays[y - 1][x + 2] = 2;
             }
         }catch(Exception e){
         }
         
         try{
-            if(simplechess.Board.board[y - 1][x - 2].getPiece() == null){
+            if(board.getBoard()[y - 1][x - 2].getPiece() == null){
                 plays[y - 1][x - 2] = 1;
-            }else if(simplechess.Board.board[y - 1][x - 2].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y - 1][x - 2].getPiece().blackPlayer != blackPlayer){
                     plays[y - 1][x - 2] = 2;
             }
         }catch(Exception e){
         }
         
         try{
-            if(simplechess.Board.board[y + 2][x + 1].getPiece() == null){
+            if(board.getBoard()[y + 2][x + 1].getPiece() == null){
                 plays[y + 2][x + 1] = 1;
-            }else if(simplechess.Board.board[y + 2][x + 1].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y + 2][x + 1].getPiece().blackPlayer != blackPlayer){
                     plays[y + 2][x + 1] = 2;
             }
         }catch(Exception e){
         }
 
         try{
-            if(simplechess.Board.board[y + 2][x - 1].getPiece() == null){
+            if(board.getBoard()[y + 2][x - 1].getPiece() == null){
                 plays[y + 2][x - 1] = 1;
-            }else if(simplechess.Board.board[y + 2][x - 1].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y + 2][x - 1].getPiece().blackPlayer != blackPlayer){
                 plays[y + 2][x - 1] = 2;
             }
         }catch(Exception e){
         }
 
         try{
-            if(simplechess.Board.board[y - 2][x + 1].getPiece() == null){
+            if(board.getBoard()[y - 2][x + 1].getPiece() == null){
                 plays[y - 2][x + 1] = 1;
-            }else if(simplechess.Board.board[y - 2][x + 1].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y - 2][x + 1].getPiece().blackPlayer != blackPlayer){
                     plays[y - 2][x + 1] = 2;
             }
         }catch(Exception e){
         }
         
         try{
-            if(simplechess.Board.board[y - 2][x - 1].getPiece() == null){
+            if(board.getBoard()[y - 2][x - 1].getPiece() == null){
                 plays[y - 2][x - 1] = 1;
-            }else if(simplechess.Board.board[y - 2][x - 1].getPiece().blackPlayer != blackPlayer){
+            }else if(board.getBoard()[y - 2][x - 1].getPiece().blackPlayer != blackPlayer){
                     plays[y - 2][x - 1] = 2;
             }
         }catch(Exception e){
@@ -107,7 +110,7 @@ public class Knight extends Piece{
     }
 
     @Override
-    public void move() {
+    public void move(Board board) {
     }
     
 }

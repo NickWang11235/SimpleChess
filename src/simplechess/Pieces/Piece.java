@@ -6,6 +6,7 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
 
 public abstract class Piece{
     
@@ -35,8 +36,8 @@ public abstract class Piece{
         this.y = y;
     }
 
-    public abstract void move();
+    public abstract void move(Board board);
     
-    public abstract int[][] getValidPlays();
+    public abstract int[][] getValidPlays(Board board);
 
 }

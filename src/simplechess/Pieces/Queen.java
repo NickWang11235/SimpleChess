@@ -6,6 +6,8 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
+import simplechess.Board.Block;
 import simplechess.ImageLoader;
 
 /**
@@ -27,84 +29,85 @@ public class Queen extends Piece {
     }
 
     @Override
-    public int[][] getValidPlays() {
-        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+    public int[][] getValidPlays(Board board) {
+        int plays[][] = new int[board.BOARD_SIZE][board.BOARD_SIZE];
+        Block b[][] = board.getBoard();
         
         for(int i = x+1; i <= 7; i++){
-            if(simplechess.Board.board[y][i].getPiece() == null){
+            if(board.getBoard()[y][i].getPiece() == null){
                 plays[y][i] = 1;
             }else{ 
-                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[y][i].getPiece().blackPlayer != blackPlayer)
                     plays[y][i] = 2;
                 break;
             }
         }
         
         for(int i = x-1; i >= 0; i--){
-            if(simplechess.Board.board[y][i].getPiece() == null){
+            if(board.getBoard()[y][i].getPiece() == null){
                 plays[y][i] = 1;
             }else{
-                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[y][i].getPiece().blackPlayer != blackPlayer)
                     plays[y][i] = 2;
                 break;
             }
         }
         
         for(int i = y+1; i <= 7; i++){
-            if(simplechess.Board.board[i][x].getPiece() == null){
+            if(board.getBoard()[i][x].getPiece() == null){
                 plays[i][x] = 1;
             }else{
-                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[i][x].getPiece().blackPlayer != blackPlayer)
                     plays[i][x] = 2;
                 break;
             }
         }
         
         for(int i = y-1; i >= 0; i--){
-            if(simplechess.Board.board[i][x].getPiece() == null){
+            if(board.getBoard()[i][x].getPiece() == null){
                 plays[i][x] = 1;
             }else{
-                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[i][x].getPiece().blackPlayer != blackPlayer)
                     plays[i][x] = 2;
                 break;
             }
         }
         
         for(int i = x+1, j = y+1; i <= 7 && j <= 7; i++, j++){
-            if(simplechess.Board.board[j][i].getPiece() == null){
+            if(board.getBoard()[j][i].getPiece() == null){
                 plays[j][i] = 1;
             }else{
-                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[j][i].getPiece().blackPlayer != blackPlayer)
                     plays[j][i] = 2;
                 break;
             }
         }
         
         for(int i = x-1, j = y-1; i >= 0 && j >= 0; i--, j--){
-            if(simplechess.Board.board[j][i].getPiece() == null){
+            if(board.getBoard()[j][i].getPiece() == null){
                 plays[j][i] = 1;
             }else{
-                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[j][i].getPiece().blackPlayer != blackPlayer)
                     plays[j][i] = 2;
                 break;
             }
         }
         
         for(int i = x+1, j = y-1; i <= 7 && j >= 0; i++, j--){
-            if(simplechess.Board.board[j][i].getPiece() == null){
+            if(board.getBoard()[j][i].getPiece() == null){
                 plays[j][i] = 1;
             }else{
-                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[j][i].getPiece().blackPlayer != blackPlayer)
                     plays[j][i] = 2;
                 break;
             }
         }
         
         for(int i = x-1, j = y+1; i >= 0 && j <= 7; i--, j++){
-            if(simplechess.Board.board[j][i].getPiece() == null){
+            if(board.getBoard()[j][i].getPiece() == null){
                 plays[j][i] = 1;
             }else{
-                if(simplechess.Board.board[j][i].getPiece().blackPlayer != blackPlayer)
+                if(board.getBoard()[j][i].getPiece().blackPlayer != blackPlayer)
                     plays[j][i] = 2;
                 break;
             }
@@ -114,7 +117,7 @@ public class Queen extends Piece {
     }
 
     @Override
-    public void move() {
+    public void move(Board board) {
     }
 
 }

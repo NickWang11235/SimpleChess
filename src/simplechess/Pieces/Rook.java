@@ -6,6 +6,8 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
+import simplechess.Board.Block;
 import simplechess.ImageLoader;
 
 /**
@@ -27,45 +29,46 @@ public class Rook extends Piece {
     }
 
     @Override
-    public int[][] getValidPlays() {
+    public int[][] getValidPlays(Board board) {
                 
-        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];
+        int plays[][] = new int[board.BOARD_SIZE][board.BOARD_SIZE];
+        Block b[][] = board.getBoard();
         
         for(int i = x+1; i <= 7; i++){
-            if(simplechess.Board.board[y][i].getPiece() == null){
+            if(b[y][i].getPiece() == null){
                 plays[y][i] = 1;
             }else{ 
-                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                if(b[y][i].getPiece().blackPlayer != blackPlayer)
                     plays[y][i] = 2;
                 break;
             }
         }
         
         for(int i = x-1; i >= 0; i--){
-            if(simplechess.Board.board[y][i].getPiece() == null){
+            if(b[y][i].getPiece() == null){
                 plays[y][i] = 1;
             }else{
-                if(simplechess.Board.board[y][i].getPiece().blackPlayer != blackPlayer)
+                if(b[y][i].getPiece().blackPlayer != blackPlayer)
                     plays[y][i] = 2;
                 break;
             }
         }
         
         for(int i = y+1; i <= 7; i++){
-            if(simplechess.Board.board[i][x].getPiece() == null){
+            if(b[i][x].getPiece() == null){
                 plays[i][x] = 1;
             }else{
-                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                if(b[i][x].getPiece().blackPlayer != blackPlayer)
                     plays[i][x] = 2;
                 break;
             }
         }
         
         for(int i = y-1; i >= 0; i--){
-            if(simplechess.Board.board[i][x].getPiece() == null){
+            if(b[i][x].getPiece() == null){
                 plays[i][x] = 1;
             }else{
-                if(simplechess.Board.board[i][x].getPiece().blackPlayer != blackPlayer)
+                if(b[i][x].getPiece().blackPlayer != blackPlayer)
                     plays[i][x] = 2;
                 break;
             }
@@ -75,7 +78,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public void move() {
+    public void move(Board board) {
     }
 
 }

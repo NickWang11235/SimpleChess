@@ -13,7 +13,7 @@ import simplechess.Pieces.*;
  */
 public class Board {
     
-    public static final int BOARD_SIZE = 8;
+    public final int BOARD_SIZE = 8;
     
     public class Block{
         
@@ -43,11 +43,11 @@ public class Board {
 
     }
     
-    public static Block board[][] = new Block[BOARD_SIZE][BOARD_SIZE];
-    private static Piece selectedPiece;
-    private static Piece blackKing, whiteKing;
+    public Block board[][] = new Block[BOARD_SIZE][BOARD_SIZE];
+    private Piece selectedPiece;
+    private Piece blackKing, whiteKing;
     
-    private static boolean blackTurn;
+    private boolean blackTurn;
     
     public Board(){
         
@@ -61,7 +61,7 @@ public class Board {
         initPieces();
     }
     
-    private static void initPieces(){
+    private void initPieces(){
 
         //Init white player pieces
         board[0][0].setPiece(new Rook(0, 0, true));
@@ -97,25 +97,25 @@ public class Board {
         return board;
     }
     
-    public static Block getBlockAt(int row, int col){
+    public Block getBlockAt(int row, int col){
         return board[row][col];
     }
     
-    public static void setBloctAt(int row, int col, Piece piece){
+    public void setBloctAt(int row, int col, Piece piece){
         board[row][col].piece = null;
         board[row][col].setPiece(piece, row, col);
     }
 
-    private static void clearBolckAt(int row, int col){
+    private void clearBolckAt(int row, int col){
         board[row][col].piece = null;
     }
     
-    public static Piece getSelectedPiece(){
+    public Piece getSelectedPiece(){
         return selectedPiece;
     }
         
-    public static void reset(){
-        blackTurn = true;
+    public void reset(){
+        blackTurn = false;
         for(int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++){
                 clearBolckAt(i,j);
@@ -126,7 +126,7 @@ public class Board {
     
     public boolean checkPlay(int row, int col){
         
-        int plays[][] = selectedPiece.getValidPlays();
+        int plays[][] = selectedPiece.getValidPlays(this);
         return plays[row][col] != 0;
         
     }
@@ -145,9 +145,10 @@ public class Board {
             if(temp != null && board[y][x].piece.getClass() == King.class){
                 System.exit(0);
             }
+            
             board[selectedPiece.getY()][selectedPiece.getX()].piece = null;
             board[y][x].setPiece(selectedPiece, y, x);
-            selectedPiece.move();
+            selectedPiece.move(this);
             
             blackTurn = !blackTurn;
             if(blackKing == null || whiteKing == null)

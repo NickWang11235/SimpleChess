@@ -6,6 +6,8 @@
 package simplechess.Pieces;
 
 import java.awt.image.BufferedImage;
+import simplechess.Board;
+import simplechess.Board.Block;
 import simplechess.ImageLoader;
 
 /**
@@ -27,15 +29,16 @@ public class King extends Piece{
     }
 
     @Override
-    public int[][] getValidPlays() {
+    public int[][] getValidPlays(Board board) {
         int row, col;
-        int plays[][] = new int[simplechess.Board.BOARD_SIZE][simplechess.Board.BOARD_SIZE];        
+        int plays[][] = new int[board.BOARD_SIZE][board.BOARD_SIZE];  
+        Block b[][] = board.getBoard();
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
-                row = Math.max(0, Math.min( j + y, simplechess.Board.BOARD_SIZE -1));
-                col = Math.max(0, Math.min( i + x, simplechess.Board.BOARD_SIZE -1));
-                if(simplechess.Board.board[row][col].getPiece() != null){
-                    if(simplechess.Board.board[row][col].getPiece().blackPlayer != blackPlayer){
+                row = Math.max(0, Math.min( j + y, board.BOARD_SIZE -1));
+                col = Math.max(0, Math.min( i + x, board.BOARD_SIZE -1));
+                if(b[row][col].getPiece() != null){
+                    if(b[row][col].getPiece().blackPlayer != blackPlayer){
                         plays[row][col] = 2;
                     }
                 }else{
@@ -47,7 +50,7 @@ public class King extends Piece{
     }    
 
     @Override
-    public void move() {
+    public void move(Board board) {
     }
     
 }
