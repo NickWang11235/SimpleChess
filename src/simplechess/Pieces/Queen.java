@@ -118,6 +118,7 @@ public class Queen extends Piece {
 
     @Override
     public void move(Board board) {
+        firstMove = false;
     }
 
 }

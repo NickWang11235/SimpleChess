@@ -11,13 +11,14 @@ import simplechess.Board;
 public abstract class Piece{
     
     public BufferedImage img;
-    public boolean blackPlayer;
+    public boolean blackPlayer, firstMove;
     protected int x, y;
     
     public Piece(int x, int y, boolean blackPlayer){
         this.x = x;
         this.y = y;
         this.blackPlayer = blackPlayer;
+        this.firstMove = true;
     }
     
     public int getX(){

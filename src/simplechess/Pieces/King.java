@@ -51,6 +51,7 @@ public class King extends Piece{
 
     @Override
     public void move(Board board) {
+        firstMove = false;
     }
     
 }

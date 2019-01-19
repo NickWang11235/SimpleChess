@@ -23,8 +23,6 @@ public class Pawn extends Piece {
         imgWhite = ImageLoader.loadImage("/White/Pawn_White.png");
     }
     
-    private boolean firstMove = true;
-    
     public Pawn(int x, int y, boolean blackPlayer){
         super(x, y, blackPlayer);
         img = blackPlayer ? imgBlack : imgWhite;
